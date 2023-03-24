@@ -1,23 +1,22 @@
 pipeline {
     agent any
     stages {
-        stage('Checkout') {
+        stage('Checkout Git repository') {
             steps {
-                checkout scm
+                git branch: 'master', url: 'https://github.com/amitopenwriteup/cicd.git'
             }
         }
-        stage('Build Docker Image') {
+        stage('Build Docker image') {
             steps {
-                sh 'docker build -t my-test .'
-            }
-        }
-        stage('Push Docker Image') {
-            steps {
-                sh 'docker login -u amitow -p Mminani029'
-                sh 'docker tag my-test amitow/test/my-test:latest'
-                sh 'docker push amitow/test:my-test'
+                script {
+                    def dockerfile = 'dockerfile'
+                    def registry = 'localhost:5000'
+                    def imageName = 'myimage'
+                    def imageTag = 'latest'
+                    def dockerImage = docker.build("${registry}/${imageName}:${imageTag}", "-f ${dockerfile} .")
+                    dockerImage.push()
+                }
             }
         }
     }
 }
-
