@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Checkout Git repository') {
+        stage('Checkout the Git repository') {
             steps {
                 git branch: 'master', url: ' https://github.com/amitopenwriteup/cicd.git'
             }
