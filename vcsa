@@ -1,0 +1,12 @@
+VCENTER_HOST="your-vcenter-hostname-or-ip"
+VCENTER_USER="your-username"
+VCENTER_PASSWORD="your-password"
+
+# Obtain an authentication token
+TOKEN=$(curl -k -X POST -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "username=${VCENTER_USER}&password=${VCENTER_PASSWORD}&grant_type=password" \
+  "https://${VCENTER_HOST}/rest/com/vmware/cis/session" | jq -r .access_token)
+
+# Use the obtained token to check CA certificate validity
+curl -k -X GET -H "Authorization: Bearer ${TOKEN}" \
+  "https://${VCENTER_HOST}/rest/certificate-management/certificates/validity" | jq .
