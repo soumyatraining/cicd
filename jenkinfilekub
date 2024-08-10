@@ -1,13 +1,19 @@
+ def dockerfile = 'dockerfile'
+ def registry = 'localhost:5000'
+ def imageName = 'myimage'
+ def imageTag = 'latest'
+ def manifestFile = 'k8s-deployment.yaml'
+ def namespace = 'default'
 pipeline {
     agent any
     
     // Define variables at the top level
-    def dockerfile = 'dockerfile'
-    def registry = 'localhost:5000'
-    def imageName = 'myimage'
-    def imageTag = 'latest'
-    def manifestFile = 'k8s-deployment.yaml'
-    def namespace = 'default'
+//    def dockerfile = 'dockerfile'
+  //  def registry = 'localhost:5000'
+    // def imageName = 'myimage'
+    // def imageTag = 'latest'
+    // def manifestFile = 'k8s-deployment.yaml'
+    // def namespace = 'default'
     
     stages {
         stage('Checkout the Git repository') {
