@@ -37,7 +37,7 @@ pipeline {
             script {
                 sh """
                 sed \
-                    -e "s|{{NAMESPACE}}|${STAGING_NAMESPACE}|g" \
+                    -e "s|{{NAMESPACE}}|${namespace}|g" \
                     -e "s|{{PULL_IMAGE}}|${IMAGE_BRANCH_TAG}|g" \
                     ${KUBERNETES_MANIFEST} \
                 | kubectl apply -f -
