@@ -38,12 +38,8 @@ pipeline {
         }
         stage('Apply Kubernetes manifest') {
            steps {
-              withCredentials([
-                file(
-                   credentialsId: "kube",
-                   variable: 'KUBECONFIG'
-               ) 
-        ]) {
+             withCredentials([file(credentialsId: '9445dd9b-e604-40cd-a802-79f747011ecb', variable: 'KUBECONFIG')])
+           {
             script {
                 sh "kubectl apply -f ${manifestFile} --namespace ${namespace}"
             }
