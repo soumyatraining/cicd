@@ -4,6 +4,7 @@
  def imageTag = 'latest'
  def manifestFile = 'kubernetes-manifest.yaml'
  def namespace = 'default'
+ def IMAGE_BRANCH_TAG = "${registry}/${imageName}:${imageTag}"
 pipeline {
     agent any
     
@@ -29,23 +30,26 @@ pipeline {
                 }
             }
         }
-        stage('Update Kubernetes manifest') {
-            steps {
-                script {
-                    sh "sed -i 's|image: .*|image: ${registry}/${imageName}:${imageTag}|' ${manifestFile}"
-                }
+        stage('Apply Kubernetes manifest') {
+         steps {
+          withCredentials([
+            file(
+                credentialsId: "kube",
+                variable: 'KUBECONFIG'
+            )
+        ]) {
+            script {
+                sh """
+                sed \
+                    -e "s|{{NAMESPACE}}|${STAGING_NAMESPACE}|g" \
+                    -e "s|{{PULL_IMAGE}}|${IMAGE_BRANCH_TAG}|g" \
+                    ${KUBERNETES_MANIFEST} \
+                | kubectl apply -f -
+                """
             }
         }
-        stage('Apply Kubernetes manifest') {
-           steps {
-             withCredentials([file(credentialsId: '9445dd9b-e604-40cd-a802-79f747011ecb', variable: 'KUBECONFIG')])
-           {
-            script {
-                sh "kubectl apply -f ${manifestFile} --namespace ${namespace}"
-             }
-          }
-      }  
-  }  
+    }
+}
 
  }
 }
