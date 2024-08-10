@@ -2,7 +2,7 @@
  def registry = 'localhost:5000'
  def imageName = 'myimage'
  def imageTag = 'latest'
- def manifestFile = 'k8s-deployment.yaml'
+ def manifestFile = 'kubernetes-manifest.yaml'
  def namespace = 'default'
 pipeline {
     agent any
