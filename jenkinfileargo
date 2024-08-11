@@ -43,7 +43,7 @@ pipeline {
         script {
             // Checkout the repository using SSH and the provided credentials
             checkout([$class: 'GitSCM',
-                      branches: [[name: 'master']],
+                      branches: [[name: 'main']],
                       doGenerateSubmoduleConfigurations: false,
                       extensions: [],
                       submoduleCfg: [],
