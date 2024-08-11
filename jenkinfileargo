@@ -74,8 +74,8 @@ pipeline {
                     ${manifestFile} > updated-manifest.yaml
 
                 // Commit the changes
-                git config user.name "Your Name"
-                git config user.email "your-email@example.com"
+                git config user.name "amit"
+                git config user.email "amit@example.com"
                 mv updated-manifest.yaml ${manifestFile} 
                 git add ${manifestFile}
                 git commit -m "Updated manifest for ${namespace} with image ${IMAGE_BRANCH_TAG}"
