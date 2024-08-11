@@ -52,7 +52,6 @@ stage('Update Manifest') {
             ])
 
             // Change directory to the checked-out repository
-            dir('myargojenkins') {
                 // Apply the transformations
                 sh """
                 sed -i \
@@ -71,7 +70,6 @@ stage('Update Manifest') {
 
                 // Push the changes to the main branch
                 sh "git push origin main"
-            }
         }
     }
    }
