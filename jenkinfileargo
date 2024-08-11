@@ -43,15 +43,14 @@ stage('Update Manifest') {
         script {
             // Checkout the repository with the provided credentials
             checkout([$class: 'GitSCM',
-                      branches: [[name: 'main']],
+                      branches: [[name: 'master']],
                       doGenerateSubmoduleConfigurations: false,
                       extensions: [],
                       submoduleCfg: [],
-                      userRemoteConfigs: [[credentialsId: 'a34d5fe3-722e-40a3-8833-bed33c22708d',
-                                           url: 'git@github.com:amitopenwriteup/myargojenkins.git']]
+                      userRemoteConfigs: [[credentialsId:'a1a4d74c-56f8-4ce5-a60b-31a2962f49f0', url: 'https://github.com/amitopenwriteup/cicd.git']]
             ])
           sh "rm -rf myargojenkins"
-          sh "git clone git@github.com:amitopenwriteup/myargojenkins.git"
+          sh "git clone https://github.com/amitopenwriteup/cicd.git"
           sh "cd myargojenkins"
            dir('myargojenkins'){
             // Change directory to the checked-out repository
