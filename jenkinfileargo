@@ -1,3 +1,8 @@
+ def remote = [:]
+ remote.name = 'test'
+ remote.host = 192.168.111.128
+ remote.fileTransfer = 'scp'
+ remote.allowAnyHosts = true
  def dockerfile = 'dockerfile'
  def registry = 'localhost:5000'
  def imageName = 'myimage'
@@ -47,8 +52,7 @@ pipeline {
                       doGenerateSubmoduleConfigurations: false,
                       extensions: [],
                       submoduleCfg: [],
-                      userRemoteConfigs: [[credentialsId: '40345377-db49-4cd1-ac24-f7e677a8c685',
-                                           url: 'git@github.com:amitopenwriteup/myargojenkins.git']]
+                      userRemoteConfigs: [[credentialsId: '40345377-db49-4cd1-ac24-f7e677a8c685', url: 'git@github.com:amitopenwriteup/myargojenkins.git']]
             ])
              sh "rm -rf myargojenkins"
              sh "git clone git@github.com:amitopenwriteup/myargojenkins.git"
@@ -64,8 +68,8 @@ pipeline {
                 """
 
                 // Configure Git user information
-                sh "git config user.name 'amit'"
-                sh "git config user.email 'amit@example.com'"
+                sh "git config user.name 'amitopenwriteup'"
+                sh "git config user.email 'amit@openwriteup.com'"
 
                 // Commit the changes
                 sh "git add ${manifestFile}"
