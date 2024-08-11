@@ -49,8 +49,6 @@ pipeline {
                 sh 'git ls-remote git@github.com:amitopenwriteup/myargojenkins.git'
             }
         }
-    }
-}
    stage('Update Kubernetes manifest in Argo Repo') {
     steps {
             script {
