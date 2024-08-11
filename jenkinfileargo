@@ -30,12 +30,28 @@ pipeline {
                 }
             }
         }
-stage('Update Kubernetes manifest in Argo Repo') {
+    stage('Add GitHub to Known Hosts') {
+    steps {
+        sh '''
+        mkdir -p ~/.ssh
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        '''
+    }
+}
+   stage('Update Kubernetes manifest in Argo Repo') {
     steps {
             script {
-                // Clone the Argo repo
+                // Checkout the repository with the provided credentials
+                checkout([$class: 'GitSCM',
+                          branches: [[name: 'main']],
+                          doGenerateSubmoduleConfigurations: false,
+                          extensions: [],
+                          submoduleCfg: [],
+                          userRemoteConfigs: [[credentialsId: '40345377-db49-4cd1-ac24-f7e677a8c685', 
+                                               url: 'git@github.com:amitopenwriteup/myargojenkins.git']]
+                ])
+
                 sh """
-                git clone git@github.com:amitopenwriteup/myargojenkins.git
                 cd myargojenkins
 
                 // Apply the transformations
@@ -45,8 +61,8 @@ stage('Update Kubernetes manifest in Argo Repo') {
                     ${manifestFile} > updated-manifest.yaml
 
                 // Commit the changes
-                git config user.name "amit"
-                git config user.email "amit@openwriteup.com"
+                git config user.name "Your Name"
+                git config user.email "your-email@example.com"
                 mv updated-manifest.yaml ${manifestFile} 
                 git add ${manifestFile}
                 git commit -m "Updated manifest for ${namespace} with image ${IMAGE_BRANCH_TAG}"
@@ -57,5 +73,6 @@ stage('Update Kubernetes manifest in Argo Repo') {
             }
         }
     }
- }
+
+  }
 }
