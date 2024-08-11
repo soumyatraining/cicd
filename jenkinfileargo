@@ -19,7 +19,7 @@ pipeline {
     stages {
         stage('Checkout the Git repository') {
             steps {
-                git branch: 'master', url: 'https://github.com/amitopenwriteup/cicd.git'
+                git branch: 'master', url: 'git@github.com:amitopenwriteup/cicd.git'
             }
         }
         stage('Build Docker image') {
@@ -38,22 +38,22 @@ pipeline {
         '''
     }
 }
-stage('Update Manifest') {
+   stage('Update Manifest') {
     steps {
         script {
-            // Checkout the repository with the provided credentials
+            // Checkout the repository using SSH and the provided credentials
             checkout([$class: 'GitSCM',
                       branches: [[name: 'master']],
                       doGenerateSubmoduleConfigurations: false,
                       extensions: [],
                       submoduleCfg: [],
-                      userRemoteConfigs: [[credentialsId:'a1a4d74c-56f8-4ce5-a60b-31a2962f49f0', url: 'https://github.com/amitopenwriteup/cicd.git']]
+                      userRemoteConfigs: [[credentialsId: '40345377-db49-4cd1-ac24-f7e677a8c685',
+                                           url: 'git@github.com:amitopenwriteup/myargojenkins.git']]
             ])
-          sh "rm -rf myargojenkins"
-          sh "git clone https://github.com/amitopenwriteup/myargojenkins.git"
-          sh "cd myargojenkins"
-           dir('myargojenkins'){
+             sh "git clone git@github.com:amitopenwriteup/myargojenkins.git"
+               
             // Change directory to the checked-out repository
+            dir('myargojenkins') {
                 // Apply the transformations
                 sh """
                 sed -i \
@@ -63,18 +63,19 @@ stage('Update Manifest') {
                 """
 
                 // Configure Git user information
+                sh "git config user.name 'amit'"
+                sh "git config user.email 'amit@example.com'"
 
                 // Commit the changes
-                 sh "git config --global user.email am@example.com"
-                 sh "git config --global user.name amitopenwriteup"
                 sh "git add ${manifestFile}"
                 sh "git commit -m 'Updated manifest for ${namespace} with image ${IMAGE_BRANCH_TAG}'"
 
-                // Push the changes to the main branch
+                // Push the changes to the main branch via SSH
                 sh "git push origin main"
+            }
         }
-      }
     }
-   }
+}
+
   }
 }
