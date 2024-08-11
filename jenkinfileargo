@@ -50,7 +50,10 @@ stage('Update Manifest') {
                       userRemoteConfigs: [[credentialsId: '40345377-db49-4cd1-ac24-f7e677a8c685',
                                            url: 'git@github.com:amitopenwriteup/myargojenkins.git']]
             ])
-
+          sh "rm -rf myargojenkins"
+          sh "git clone git@github.com:amitopenwriteup/myargojenkins.git"
+          sh "cd myargojenkins"
+           dir('myargojenkins'){
             // Change directory to the checked-out repository
                 // Apply the transformations
                 sh """
@@ -61,8 +64,6 @@ stage('Update Manifest') {
                 """
 
                 // Configure Git user information
-                sh "git config user.name 'amit'"
-                sh "git config user.email 'amit@example.com'"
 
                 // Commit the changes
                 sh "git add ${manifestFile}"
@@ -71,6 +72,7 @@ stage('Update Manifest') {
                 // Push the changes to the main branch
                 sh "git push origin main"
         }
+      }
     }
    }
   }
