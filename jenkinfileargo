@@ -47,7 +47,7 @@ stage('Update Manifest') {
                       doGenerateSubmoduleConfigurations: false,
                       extensions: [],
                       submoduleCfg: [],
-                      userRemoteConfigs: [[credentialsId: '40345377-db49-4cd1-ac24-f7e677a8c685',
+                      userRemoteConfigs: [[credentialsId: 'a34d5fe3-722e-40a3-8833-bed33c22708d',
                                            url: 'git@github.com:amitopenwriteup/myargojenkins.git']]
             ])
           sh "rm -rf myargojenkins"
