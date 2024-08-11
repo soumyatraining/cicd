@@ -1,8 +1,3 @@
- def remote = [:]
- remote.name = 'test'
- remote.host = 192.168.111.128
- remote.fileTransfer = 'scp'
- remote.allowAnyHosts = true
  def dockerfile = 'dockerfile'
  def registry = 'localhost:5000'
  def imageName = 'myimage'
