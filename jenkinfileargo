@@ -65,6 +65,8 @@ stage('Update Manifest') {
                 // Configure Git user information
 
                 // Commit the changes
+                 sh "git config --global user.email am@example.com"
+                 sh "git config --global user.name amit
                 sh "git add ${manifestFile}"
                 sh "git commit -m 'Updated manifest for ${namespace} with image ${IMAGE_BRANCH_TAG}'"
 
