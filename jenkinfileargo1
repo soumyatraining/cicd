@@ -43,6 +43,11 @@ pipeline {
         script {
             // Checkout the repository using SSH and the provided credentials
              checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '40345377-db49-4cd1-ac24-f7e677a8c685', url: 'git@github.com:amitopenwriteup/myargojenkins.git']])
+             sh "rm -rf myargojenkins"
+             sh "git clone git@github.com:amitopenwriteup/myargojenkins.git"
+               
+            // Change directory to the checked-out repository
+            dir('myargojenkins') {
                 // Apply the transformations
                 sh """
                 sed -i \
@@ -64,6 +69,7 @@ pipeline {
             }
         }
     }
+}
 
   }
 }
