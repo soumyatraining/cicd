@@ -52,7 +52,6 @@ pipeline {
                 ])
 
                 sh """
-                cd myargojenkins
 
                 // Apply the transformations
                 sed \
