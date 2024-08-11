@@ -38,19 +38,20 @@ pipeline {
         '''
     }
 }
-  stage('Test Git Access') {
+stage('Test Git Access') {
     steps {
         withCredentials([sshUserPrivateKey(credentialsId: '40345377-db49-4cd1-ac24-f7e677a8c685', keyFileVariable: 'SSH_KEY')]) {
             script {
                 // Test SSH access
-                sh 'ssh -i $SSH_KEY -o StrictHostKeyChecking=no git@github.com'
+                sh 'ssh -T -i $SSH_KEY -o StrictHostKeyChecking=no git@github.com || exit 1'
                 
                 // Test Git access
-                sh 'git ls-remote git@github.com:amitopenwriteup/myargojenkins.git'
+                sh 'git ls-remote git@github.com:amitopenwriteup/myargojenkins.git || exit 1'
             }
         }
-  }
+    }
 }
+
    stage('Update Kubernetes manifest in Argo Repo') {
     steps {
             script {
