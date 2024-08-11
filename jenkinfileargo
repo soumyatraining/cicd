@@ -44,6 +44,11 @@ pipeline {
             // Checkout the repository using SSH and the provided credentials
              checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '40345377-db49-4cd1-ac24-f7e677a8c685', url: 'git@github.com:amitopenwriteup/myargojenkins.git']])
                 // Apply the transformations
+                sh "git fetch --all"
+
+                    // Check if the 'main' branch exists, if not, create it
+                    sh "git branch -a | grep remotes/origin/main || git checkout -b main"
+
                 sh """
                 sed -i \
                     -e "s|{{NAMESPACE}}|${namespace}|g" \
